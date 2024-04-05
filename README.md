@@ -48,7 +48,7 @@ In the body you have to pass this configuration
 ```json
 {
   "type": "users",
-  "prompt":"Im looking for a JSON structured exactly like this: {'users': [{'name': 'Example Name', 'email': 'example@email.com', 'image_path': '/path/to/image.jpg', 'password': 'examplePassword'}]}. Please generate a similar JSON object with 10 unique users."
+  "prompt":"Im looking for a JSON structured exactly like this: {'users': [{'name': 'Example Name', 'email': 'example@email.com', 'image_path': '/path/to/image.jpg', 'password': 'examplePassword'}]}. Please generate a similar JSON object with 10 unique users and keep present that password field must be at least 8 characters like password1 the password must be unique for every user"
 }
 ```
 
