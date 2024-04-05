@@ -55,9 +55,8 @@ class GptController extends Controller
             $dataArray = ['users' => is_array($dataArray) ? $dataArray : []];
         } else {
             // Log the actual structure for diagnostics
-            print_r("entro else para foreach");
             foreach ($dataArray["users"] as $userData) {
-                $this->ingestData->ingestData('users', $userData);
+                $this->ingestData->ingestData($validated['type'] , $userData);
             }
         }
 

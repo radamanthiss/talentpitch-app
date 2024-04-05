@@ -12,9 +12,237 @@
 To run the project in local is necessary apply some configurations that list in next comments
 
 - install postgresql from https://www.postgresql.org/download/
+- for setup the environment with composer and php to run the project. you can install laravel Herd that works to install latest version from composer and php https://herd.laravel.com/windows 
+- in the path of this code run composer install
 - change the environment variables in the env to put the values in database configuration
+- install api to create the api routes from routes/api.php usign php artisan install:api if doesn't have configured
 - create into postgresql a database named laravel, you can use pgAdmin or run the next command CREATE DATABASE laravel
 - run the migrations wiht php artisan migrate to create the tables into laravel database
+- we need get the key from open api so if you have an account you can create your api key or use the api key that is in env file
+
+
+
+## Migrations
+execute the next command to apply the migration of tables into the database
+- php artisan migrate
+
+## Project execution
+For run this project please use this command
+- php artisan serve
+
+## First step to use the endpoints
+NOTE: for all the endpoint in headers configure in postman the variable
+```
+{
+  'Accept': 'application/json'
+}
+```
+this is for return the json response unauthenticated when doesn't pass the Bearer token for every endpoint
+
+## API GPT
+First you have to use the endpoint to generate the initial data for all the tables. In this case you can run this endpoint
+- http://127.0.0.1:8000/api/process-gpt
+In the body you have to pass this configuration
+
+- users
+```json
+{
+  "type": "users",
+  "prompt":"Im looking for a JSON structured exactly like this: {'users': [{'name': 'Example Name', 'email': 'example@email.com', 'image_path': '/path/to/image.jpg', 'password': 'examplePassword'}]}. Please generate a similar JSON object with 10 unique users."
+}
+```
+
+- companies
+```json 
+{
+  "type": "companies",
+  "prompt": "Im looking for a JSON structured exactly like this: {'companies': [{'name': 'Tech Innovations', 'image_path': '/path/to/image.jpg', 'location': 'Silicon Valley', 'industry': 'Technology', 'user_id': 1}]} with 10 unique companies. Each company should have a unique name, a representative image path, a specific location that varies across entries, industries such as Technology, Healthcare, Finance, and Education, and user_id should be integers indicating different users from 1 to 10 that is the user_id in table users"
+}
+
+```
+
+- challenges
+```json
+{
+  "type": "challenges",
+  "prompt": "Im looking for a JSON structured exactly like this: {'challenges': [{'title': 'Solve the maze', 'description': 'Create an algorithm to solve a given maze', 'difficulty': 'hard', 'user_id': 1}]} with 10 unique challenges. The titles should be creative and varied, the descriptions detailed, explaining the challenge, the difficulty can range from easy, medium, to hard, and user_id should be integers representing different users from 1 to 10 that is the user_id in table users"
+}
+```
+
+- programs
+```json 
+{
+  "type": "programs",
+  "prompt": "I am looking for a JSON structured exactly like this: {'programs': [{'title': 'Introduction to Python', 'description': 'A comprehensive guide to mastering Python programming', 'start_date': '2023-01-01', 'end_date': '2023-06-01', 'user_id': 1}]} with 10 unique programs. Titles should reflect a variety of educational or training themes, descriptions should provide a brief overview of the program content, start and end dates should span plausible durations, and user_id should be integers representing different user from 1 to 10 that is the user_id in table users"
+}
+```
+
+## CRUD operations
+After run the gpt api and insert data you can use the crud for the other endpoint, this is the configuration for every endpoint in the project
+## IMPORTANT
+You have to generate a bearer token to use the different endpoints
+- POST http://127.0.0.1:8000/api/token
+```json
+{
+  "email":"user1@email.com",
+  "password":"password1"
+}
+```
+with this the response return a object like this
+```json
+{
+  "token": "1|Gqal9RTKzxHiab9EGAr7wbBPM9JWeHSLuk0qoBgIe3b7d2f7"
+}
+```
+And this is the token that you have to put into postman Authorization sheet and select the bearer type
+
+## Users
+- GET http://127.0.0.1:8000/api/users?page=1&items=10
+the page and items are optionally if not pass return also 10 items
+
+- GET http://127.0.0.1:8000/api/users/{id}
+id: id of the user return info filter by id
+
+- POST http://127.0.0.1:8000/api/users
+```json
+{
+  "name": "user 1",
+  "email":"test@email.com",
+  "image_path":"path/to/image.jpg",
+  "password":"password1234"
+}
+```
+
+- PUT http://127.0.0.1:8000/api/users/{id}
+id: the id that i want to update
+```json
+{
+  "name": "user 1",
+  "email":"test@gmail.com",
+  "image_path":"path/to/image.jpg",
+  "password":"password1234"
+}
+```
+
+- DELETE http://127.0.0.1:8000/api/users/{id}
+id: The id that i want to delete
+
+## Companies
+
+- GET http://127.0.0.1:8000/api/companies?page=1&items=10
+the page and items are optionally if not pass return also 10 items
+
+- GET http://127.0.0.1:8000/api/companies/{id}
+id: id of the company return info filter by id
+
+- POST http://127.0.0.1:8000/api/companies
+```json
+{
+  "name": "Tesla",
+  "image_path":"path/to/image.jpg",
+  "location":"California",
+  "industry":"AI",
+  "user_id":1
+}
+```
+
+- PUT http://127.0.0.1:8000/api/companies/{id}
+id: the id that i want to update
+```json
+{
+  "name": "Tesla",
+  "image_path":"path/to/image.jpg",
+  "location":"California",
+  "industry":"AI",
+  "user_id":1
+}
+```
+
+- DELETE http://127.0.0.1:8000/api/companies/{id}
+id: the id that i want to delete
+
+
+## Challenges
+
+- GET http://127.0.0.1:8000/api/challenges?page=1&items=10
+the page and items are optionally if not pass return also 10 items
+
+- GET http://127.0.0.1:8000/api/challenges/{id}
+id: id of the challenge return info filter by id
+
+- POST http://127.0.0.1:8000/api/challenges
+```json
+{
+  "title": "Solve the puzzle",
+  "description":"Create app that solve puzzle",
+  "difficulty":"hard",
+  "user_id":1
+}
+```
+
+- PUT http://127.0.0.1:8000/api/challenges/{id}
+id: the id that i want to update
+```json
+{
+  "title": "Solve the puzzle",
+  "description":"Create app that solve puzzle",
+  "difficulty":"hard",
+  "user_id":1
+}
+```
+
+- DELETE http://127.0.0.1:8000/api/challenges/{id}
+id: the id that i want to delete
+
+
+## programs
+- GET http://127.0.0.1:8000/api/programs?page=1&items=10
+the page and items are optionally if not pass return also 10 items
+
+- GET http://127.0.0.1:8000/api/programs/{id}
+id: id of the program return info filter by id
+
+- POST http://127.0.0.1:8000/api/challenges
+```json
+{
+  "title": "Introduction to Python",
+  "description":"Python programming",
+  "start_date":"2024-03-01",
+  "end_date":"2024-06-01",
+  "user_id":1
+}
+```
+
+- PUT http://127.0.0.1:8000/api/challenges/{id}
+id: the id that i want to update
+```json
+{
+  "title": "Introduction to Python",
+  "description":"Python programming",
+  "start_date":"2024-03-01",
+  "end_date":"2024-06-01",
+  "user_id":1
+}
+```
+
+- DELETE http://127.0.0.1:8000/api/challenges/{id}
+id: the id that i want to delete
+
+## programs_participant
+
+- GET http://127.0.0.1:8000/api/programs-participant?page=1&items=10
+the page and items are optionally if not pass return also 10 items
+
+- GET http://127.0.0.1:8000/api/programs-participant/{id}
+id: the id to filter data in program participant
+
+- POST http://127.0.0.1:8000/api/programs-participant
+
+- PUT http://127.0.0.1:8000/api/programs-participant/{id}
+
+- DELETE http://127.0.0.1:8000/api/programs-participant/{id}
+id: the id that i want to delete
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.

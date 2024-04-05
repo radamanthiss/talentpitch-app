@@ -18,4 +18,13 @@ class Challenges extends Model
     {
         return $this->morphMany(ProgramParticipants::class, 'participantable');
     }
+
+    public static function ValidatorRules(){
+        return [
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'difficulty' => 'required|string',
+            'user_id' => 'required|integer'
+        ];
+    }
 }
