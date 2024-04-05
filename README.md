@@ -243,6 +243,48 @@ id: the id to filter data in program participant
 - DELETE http://127.0.0.1:8000/api/programs-participant/{id}
 id: the id that i want to delete
 
+
+## PRODUCTION DEPLOYMENT
+For this project i follow the steps for laravel site about prod deployment and use laravel forge with vultr for deploy the git repository
+this is the url for test the status of deployment
+
+- http://45.77.112.84/api/up
+
+For test the different endpoint only you have to change the domain localhost in postman by http://45.77.112.84/api/{name_of_endpoint}
+now for testing the connection of production database we can use TablePlus to connecting using ssh
+
+- https://tableplus.com/download
+
+Once install use the connection url that you can see in the email with the password then you can see if the information using the endpoint from GPT is inserting into the different tables. Follow the same step
+- 1 inserting data to different tables using GPT api
+- 2 generate a token using the endpoint api/token
+- 3 test the different endpoints for users, programs, challenges etc. Using the token generated for authenticated
+
+For a best testing the current users table already have information generated from API gpt you can test the other table inserting like this
+```json 
+{
+  "type": "companies",
+  "prompt": "Im looking for a JSON structured exactly like this: {'companies': [{'name': 'Tech Innovations', 'image_path': '/path/to/image.jpg', 'location': 'Silicon Valley', 'industry': 'Technology', 'user_id': 1}]} with 10 unique companies. Each company should have a unique name, a representative image path, a specific location that varies across entries, industries such as Technology, Healthcare, Finance, and Education, and user_id should be integers indicating different users from 1 to 10 that is the user_id in table users"
+}
+```
+
+- example users insert
+
+![Captura de pantalla 2024-04-05 a la(s) 9 13 00 a  m  (2)](https://github.com/radamanthiss/talentpitch-app/assets/22681704/af27bfdc-3c42-4430-9bed-ed21c4f77257)
+
+- example user table information
+![Captura de pantalla 2024-04-05 a la(s) 9 14 46 a  m](https://github.com/radamanthiss/talentpitch-app/assets/22681704/2dac1073-e107-415b-a775-cc8a084948d9)
+
+## Recommendations
+Please follow the steps for a successful testing
+
+## Unit Test
+
+run the command
+- php artisan test 
+for execute the different test of the app
+
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.

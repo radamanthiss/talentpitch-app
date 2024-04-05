@@ -18,6 +18,8 @@ class GptService
   }
   public function generateText($prompt)
   {
+    error_log("endpoint: " . $this->endpoint);
+    error_log("apiKey: " . $this->apiKey);
     try {
       $client = new Client();
       $response = $client->post($this->endpoint, [
@@ -47,10 +49,12 @@ class GptService
       $data = json_decode($content, true);
       return response()->json($data);
     } catch (\GuzzleHttp\Exception\ClientException $e) {
-      if ($e->getResponse()->getStatusCode() == 429) {
-        return response()->json(['error' => 'API rate limit exceeded. Please try again later.'], 429);
-      }
-      throw new \Exception('Failed to generate text: ' . $e->getMessage());
+      return response()->json(['error' => 'Failed to communicate with the GPT API: ' . $e->getMessage()], $e->getCode() ?: 400);
+
+      // if ($e->getResponse()->getStatusCode() == 429) {
+      //   return response()->json(['error' => 'API rate limit exceeded. Please try again later.'], 429);
+      // }
+      // throw new \Exception('Failed to generate text: ' . $e->getMessage());
     }
   }
 }

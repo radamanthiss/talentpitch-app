@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\GptController;
+use App\Http\Controllers\ProgramParticipantController;
 use App\Http\Controllers\UserController;
 
 
@@ -35,11 +36,12 @@ Route::post('programs', [ProgramController::class, 'store'])->middleware('auth:s
 Route::put('programs/{id}', [ProgramController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('programs/{id}', [ProgramController::class, 'destroy'])->middleware('auth:sanctum');
 
-Route::get('programs-participant', [ProgramController::class, 'index'])->middleware('auth:sanctum');
-Route::get('programs-participant/{id}', [ProgramController::class, 'show'])->middleware('auth:sanctum');
-Route::post('programs-participant', [ProgramController::class, 'store'])->middleware('auth:sanctum');
-Route::put('programs-participant/{id}', [ProgramController::class, 'update'])->middleware('auth:sanctum');
-Route::delete('programs-participant/{id}', [ProgramController::class, 'destroy'])->middleware('auth:sanctum');
+Route::get('programs-participant', [ProgramParticipantController::class, 'index'])->middleware('auth:sanctum');
+Route::get('programs-participant/{id}', [ProgramParticipantController::class, 'show'])->middleware('auth:sanctum');
+Route::post('programs-participant', [ProgramParticipantController::class, 'store'])->middleware('auth:sanctum');
+Route::put('programs-participant/{id}', [ProgramParticipantController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('programs-participant/{id}', [ProgramParticipantController::class, 'destroy'])->middleware('auth:sanctum');
+Route::post('/program-participants-add', [ProgramParticipantController::class, 'addParticipantToProgram'])->middleware('auth:sanctum');
 
 Route::post('process-gpt', [GptController::class, 'generateAndIngest']);
 

@@ -33,12 +33,15 @@ class DataIngestionService
         break;
       case 'companies':
         $model = Companies::class;
+        $validatorRules = Companies::validatorRules(); // You need to define this method in your model
         break;
       case 'challenges':
         $model = Challenges::class;
+        $validatorRules = Challenges::validatorRules(); // You need to define this method in your model
         break;
       case 'programs':
         $model = Programs::class;
+        $validatorRules = Programs::validatorRules(); // You need to define this method in your model
         break;
       default:
         throw new \Exception('Invalid data type provided.');

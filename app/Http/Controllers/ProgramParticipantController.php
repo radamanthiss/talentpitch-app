@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ProgramParticipantResource;
 use App\Models\ProgramParticipants;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Programs;
+use App\Models\User;
+use App\Models\Challenges;
+use App\Models\Companies;
+use InvalidArgumentException;
 
 class ProgramParticipantController extends Controller
 {
@@ -129,6 +134,55 @@ class ProgramParticipantController extends Controller
             return response()->json([
                 'message' => 'Error: ' . $error->getMessage()
             ], 400);
+        }
+    }
+
+    public function addParticipantToProgram(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'program_id' => 'required|integer',
+            'entity_id' => 'required|integer',
+            'entity_type' => 'required|string', // Expected values: 'user', 'challenge', 'company'
+        ]);
+
+        $program = Programs::findOrFail($request->program_id);
+
+        // Determine the participant model based on the participant_type
+        $participantModel = $this->getParticipantModel($request->participant_type);
+
+        // Find the participant model instance
+        $participant = $participantModel::findOrFail($request->participant_id);
+
+        // Create a new ProgramParticipant entry
+        $programParticipant = new ProgramParticipants([
+            'entity_id' => $participant->id,
+            'entity_type' => get_class($participant),
+        ]);
+
+        // Associate with the program
+        $program->participants()->save($programParticipant);
+
+        return response()->json(['message' => 'Participant added successfully']);
+    }
+
+    /**
+     * Determine the participant model based on the provided type.
+     *
+     * @param string $type
+     * @return string
+     */
+    protected function getParticipantModel($type)
+    {
+        switch ($type) {
+            case 'user':
+                return User::class;
+            case 'challenge':
+                return Challenges::class;
+            case 'company':
+                return Companies::class;
+            default:
+                throw new InvalidArgumentException("Invalid participant type provided.");
         }
     }
 }
