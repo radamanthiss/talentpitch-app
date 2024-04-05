@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->integer('difficulty');
+            $table->string('difficulty');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });

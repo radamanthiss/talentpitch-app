@@ -4,11 +4,11 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
-use App\Models\Companies;
+use App\Models\Challenges;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
-class CompaniesControllerTest extends TestCase
+class ChallengesControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,8 +21,8 @@ class CompaniesControllerTest extends TestCase
             ['*'] // Permissions or abilities, if necessary
         );
 
-        Companies::factory()->count(10)->create();
-        $response = $this->getJson('/api/companies');
+        Challenges::factory()->count(10)->create();
+        $response = $this->getJson('/api/challenges');
         // Additional assertions as needed
         $response->assertOk();
         $response->assertJsonCount(10, 'data');
@@ -41,29 +41,28 @@ class CompaniesControllerTest extends TestCase
 
         // Prepare the request data
         $requestData = [
-            'name' => 'Tesla',
-            'image_path' => 'path/to/image.jpg',
-            'location' => 'California',
-            'industry' => 'AI',
-            'user_id' => $user->id
+            'title' => 'New Challenge',
+            'description' => 'A detailed description.',
+            'difficulty' => 'medium', // Assuming 'difficulty' is a string type in your schema
+            'user_id' => $user->id,
         ];
 
         // Make the authenticated POST request to the API endpoint
-        $response = $this->postJson('/api/companies', $requestData);
+        $response = $this->postJson('/api/challenges', $requestData);
 
         // Assertions
         $response->assertStatus(201); // Assert the response status code is 201 Created
         $response->assertJsonFragment([
-            'name' => 'Tesla',
-            'location' => 'California',
-            'industry' => 'AI'
+            'title' => 'Tesla',
+            'description' => 'Prueba para crear challenges',
+            'difficulty' => 'hard'
         ]);
 
         // Further assertion to confirm the data was saved in the database
-        $this->assertDatabaseHas('companies', [
+        $this->assertDatabaseHas('challenges', [
             'name' => 'Tesla',
-            'location' => 'California',
-            'industry' => 'AI'
+            'description' => 'Prueba para crear challenges',
+            'difficulty' => 'hard'
         ]);
     }
     // Add  test methods show
@@ -75,9 +74,9 @@ class CompaniesControllerTest extends TestCase
         );
         $user = User::factory()->create();
 
-        $company = Companies::factory()->create();
+        $company = Challenges::factory()->create();
 
-        $response = $this->getJson("/api/companies/{$company->id}");
+        $response = $this->getJson("/api/challenges/{$company->id}");
 
 
         $response->assertOk();
@@ -94,37 +93,36 @@ class CompaniesControllerTest extends TestCase
             ['*'] // Permissions or abilities, if necessary
         );
 
-        // Create a company, associating it with the authenticated user
-        $company = Companies::factory()->create([
+        // Create a challenges, associating it with the authenticated user
+        $challenges = Challenges::factory()->create([
             'user_id' => $user->id, // Ensure the company is associated with our user
         ]);
 
         // Prepare the data for updating the company
         $updateData = [
-            'name' => 'Updated Company',
-            'image_path' => '/path/to/image.jpg',
-            'location' => 'Silicon Valley',
-            'industry' => 'Technology',
-            'user_id' => $user->id, // Maintaining the same user, but it's good practice to ensure consistency
+            'title' => 'Tesla',
+            'description' => 'Prueba para crear challenges',
+            'difficulty' => 'hard',
+            'user_id' => $user->id
         ];
 
         // Make the PUT request to update the company
-        $response = $this->putJson("/api/companies/{$company->id}", $updateData);
+        $response = $this->putJson("/api/challenges/{$challenges->id}", $updateData);
 
         // Assertions
         $response->assertOk(); // Assert the response status code is 200 OK
         $response->assertJsonFragment([
-            'name' => 'Updated Company',
-            'location' => 'Silicon Valley',
-            'industry' => 'Technology',
+            'title' => 'Updated Challenge',
+            'description' => 'Prueba para crear challenges',
+            'difficulty' => 'hard',
         ]);
 
         // Additional assertion to confirm the data was updated in the database
         $this->assertDatabaseHas('companies', [
-            'id' => $company->id, // Ensure we're looking at the correct company
-            'name' => 'Updated Company',
-            'location' => 'Silicon Valley',
-            'industry' => 'Technology',
+            'id' => $challenges->id, // Ensure we're looking at the correct company
+            'title' => 'Updated Challenge',
+            'location' => 'Prueba para crear challenges',
+            'difficulty' => 'hard',
         ]);
     }
 
@@ -138,18 +136,18 @@ class CompaniesControllerTest extends TestCase
             ['*'] // Assuming the user has permission to delete companies
         );
 
-        // Create a company, associating it with the authenticated user
+        // Create a challenge, associating it with the authenticated user
         // This assumes your Companies model has a 'user_id' field for ownership
-        $company = Companies::factory()->create([
+        $challenge = Challenges::factory()->create([
             'user_id' => $user->id,
         ]);
 
         // Make the DELETE request to destroy the company
-        $response = $this->deleteJson("/api/companies/{$company->id}");
+        $response = $this->deleteJson("/api/challenges/{$challenge->id}");
 
         // Assertions
         $response->assertOk();
         $response->assertJson(['message' => 'Data deleted successfully']);
-        $this->assertDatabaseMissing('companies', ['id' => $company->id]);
+        $this->assertDatabaseMissing('challenges', ['id' => $challenge->id]);
     }
 }
