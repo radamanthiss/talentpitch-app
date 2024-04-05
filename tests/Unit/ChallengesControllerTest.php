@@ -53,16 +53,16 @@ class ChallengesControllerTest extends TestCase
         // Assertions
         $response->assertStatus(201); // Assert the response status code is 201 Created
         $response->assertJsonFragment([
-            'title' => 'Tesla',
-            'description' => 'Prueba para crear challenges',
-            'difficulty' => 'hard'
+            'title' => 'New Challenge',
+            'description' => 'A detailed description.',
+            'difficulty' => 'medium'
         ]);
 
         // Further assertion to confirm the data was saved in the database
         $this->assertDatabaseHas('challenges', [
-            'name' => 'Tesla',
-            'description' => 'Prueba para crear challenges',
-            'difficulty' => 'hard'
+            'title' => 'New Challenge',
+            'description' => 'A detailed description.',
+            'difficulty' => 'medium'
         ]);
     }
     // Add  test methods show
@@ -100,9 +100,9 @@ class ChallengesControllerTest extends TestCase
 
         // Prepare the data for updating the company
         $updateData = [
-            'title' => 'Tesla',
-            'description' => 'Prueba para crear challenges',
-            'difficulty' => 'hard',
+            'title' => 'Updated Challenge',
+            'description' => 'A detailed description.',
+            'difficulty' => 'medium',
             'user_id' => $user->id
         ];
 
@@ -113,16 +113,16 @@ class ChallengesControllerTest extends TestCase
         $response->assertOk(); // Assert the response status code is 200 OK
         $response->assertJsonFragment([
             'title' => 'Updated Challenge',
-            'description' => 'Prueba para crear challenges',
-            'difficulty' => 'hard',
+            'description' => 'A detailed description.',
+            'difficulty' => 'medium',
         ]);
 
         // Additional assertion to confirm the data was updated in the database
-        $this->assertDatabaseHas('companies', [
+        $this->assertDatabaseHas('challenges', [
             'id' => $challenges->id, // Ensure we're looking at the correct company
             'title' => 'Updated Challenge',
-            'location' => 'Prueba para crear challenges',
-            'difficulty' => 'hard',
+            'description' => 'A detailed description.',
+            'difficulty' => 'medium',
         ]);
     }
 
