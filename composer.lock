@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9bbd3976012d5a30a5f6721e86c380d",
+    "content-hash": "7427b78e1cdac7a839bb921a4322c01c",
     "packages": [
         {
             "name": "brick/math",
@@ -1046,6 +1046,48 @@
             "time": "2023-12-03T19:50:20+00:00"
         },
         {
+            "name": "jichangfeng/pgsql",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jichangfeng/pgsql.git",
+                "reference": "7153938b7e268948259ee0799704b90375131137"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jichangfeng/pgsql/zipball/7153938b7e268948259ee0799704b90375131137",
+                "reference": "7153938b7e268948259ee0799704b90375131137",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "ext-pdo_pgsql": "*",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Workerman\\PostgreSQL\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Long-living PostgreSQL connection for daemon.",
+            "homepage": "http://www.workerman.net",
+            "keywords": [
+                "pdo",
+                "pdo_pgsql",
+                "pgsql"
+            ],
+            "support": {
+                "issues": "https://github.com/jichangfeng/pgsql/issues",
+                "source": "https://github.com/jichangfeng/pgsql/tree/v1.1"
+            },
+            "time": "2021-02-26T10:07:04+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v11.2.0",
             "source": {
@@ -1306,6 +1348,70 @@
                 "source": "https://github.com/laravel/prompts/tree/v0.1.17"
             },
             "time": "2024-03-13T16:05:43+00:00"
+        },
+        {
+            "name": "laravel/sanctum",
+            "version": "v4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/sanctum.git",
+                "reference": "d1de99bf8d31199aaf93881561622489ab91ba58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/d1de99bf8d31199aaf93881561622489ab91ba58",
+                "reference": "d1de99bf8d31199aaf93881561622489ab91ba58",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/console": "^11.0",
+                "illuminate/contracts": "^11.0",
+                "illuminate/database": "^11.0",
+                "illuminate/support": "^11.0",
+                "php": "^8.2",
+                "symfony/console": "^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.6",
+                "orchestra/testbench": "^9.0",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Sanctum\\SanctumServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Sanctum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel Sanctum provides a featherweight authentication system for SPAs and simple APIs.",
+            "keywords": [
+                "auth",
+                "laravel",
+                "sanctum"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/sanctum/issues",
+                "source": "https://github.com/laravel/sanctum"
+            },
+            "time": "2024-03-19T20:09:38+00:00"
         },
         {
             "name": "laravel/serializable-closure",
